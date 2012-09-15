@@ -128,15 +128,20 @@ namespace Tantrix
             return where.Contains(new Point((int)x, (int)y));
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, bool partOfTileBag = false, bool clickedOnTile = false)
         {
-            Draw(spriteBatch, location, false);
+            Draw(spriteBatch, location, true, partOfTileBag, clickedOnTile);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 location, bool setLoc = true)
+        public void Draw(SpriteBatch spriteBatch, Vector2 location, bool setLoc = true, bool partOfTileBag = false, bool clickedOnTile = false)
         {
             if (setLoc) { SetLocation(location); }
-            spriteBatch.Draw(Game1.tilebackground, location, null, Color.Black, 0, Game1.centre, 1.0f, SpriteEffects.None, 0.1f);
+
+            float depth = 0.1f;
+            if (partOfTileBag) { depth = 0.7f; }
+            if (clickedOnTile) { depth = 0.9f; }
+
+            spriteBatch.Draw(Game1.tilebackground, location, null, Color.Black, 0, Game1.centre, 1.0f, SpriteEffects.None, depth);
 
             for(int start = 0; start < ends.Length; ++start)
             {
@@ -147,27 +152,27 @@ namespace Tantrix
                     {
                         case LineType.Curly:
                         {
-                            spriteBatch.Draw(Game1.curlypiece, location, null, colours[start], (float)(-1 * start * Math.PI / 3), Game1.centre, 1.0f, SpriteEffects.None, 0.2f);
+                            spriteBatch.Draw(Game1.curlypiece, location, null, colours[start], (float)(-1 * start * Math.PI / 3), Game1.centre, 1.0f, SpriteEffects.None, depth + 0.1f);
                             break;
                         }
                         case LineType.CurlyRef:
                         {
-                            spriteBatch.Draw(Game1.curlypiece, location, null, colours[start], (float)(start * Math.PI / 3), Game1.centre, 1.0f, SpriteEffects.None, 0.2f);
+                            spriteBatch.Draw(Game1.curlypiece, location, null, colours[start], (float)(start * Math.PI / 3), Game1.centre, 1.0f, SpriteEffects.None, depth + 0.1f);
                             break;
                         }
                         case LineType.Swoopy:
                         {
-                            spriteBatch.Draw(Game1.swoopypiece, location, null, colours[start], (float)(-1 * start * Math.PI / 3), Game1.centre, 1.0f, SpriteEffects.None, 0.2f);
+                            spriteBatch.Draw(Game1.swoopypiece, location, null, colours[start], (float)(-1 * start * Math.PI / 3), Game1.centre, 1.0f, SpriteEffects.None, depth + 0.1f);
                             break;
                         }
                         case LineType.SwoopyRef:
                         {
-                            spriteBatch.Draw(Game1.swoopypiece, location, null, colours[start], (float)(start * Math.PI / 3), Game1.centre, 1.0f, SpriteEffects.None, 0.2f);
+                            spriteBatch.Draw(Game1.swoopypiece, location, null, colours[start], (float)(start * Math.PI / 3), Game1.centre, 1.0f, SpriteEffects.None, depth + 0.1f);
                             break;
                         }
                         case LineType.Straight:
                         {
-                            spriteBatch.Draw(Game1.straightpiece, location, null, colours[start], (float)(start * Math.PI / 3), Game1.centre, 1.0f, SpriteEffects.None, 0.2f);
+                            spriteBatch.Draw(Game1.straightpiece, location, null, colours[start], (float)(start * Math.PI / 3), Game1.centre, 1.0f, SpriteEffects.None, depth + 0.1f);
                             break;
                         }
                     }

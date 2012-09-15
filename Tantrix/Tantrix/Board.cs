@@ -119,20 +119,20 @@ namespace Tantrix
                 Tile tile = bag.ElementAt<Tile>(i);
                 if (tile != clickedOnTile)
                 {
-                    tile.Draw(spriteBatch, new Vector2(50 + 100 * (i - offset), 50 + yvalue));
+                    tile.Draw(spriteBatch, new Vector2(50 + 100 * (i - offset), 50 + yvalue), true, true);
                 }
             }
 
             if(offset == bag.Count<Tile>())
             {
-                spriteBatch.Draw(Game1.tilebagtexture, new Rectangle(0, 0, Game1.screenWidth, yvalue), null, Color.Pink, 0, Vector2.Zero, SpriteEffects.None, 0);
                 startOfBoard = yvalue;
             }
             else
             {
-                spriteBatch.Draw(Game1.tilebagtexture, new Rectangle(0, 0, Game1.screenWidth, yvalue + (int)Game1.height), null, Color.Pink, 0, Vector2.Zero, SpriteEffects.None, 0);
                 startOfBoard = yvalue + Game1.height;
             }
+
+            spriteBatch.Draw(Game1.tilebagtexture, new Rectangle(0, 0, Game1.screenWidth, (int)startOfBoard), null, Color.Pink, 0, Vector2.Zero, SpriteEffects.None, 0.6f);
         }
 
         public Tile getTileOnScreen(float x, float y)

@@ -163,7 +163,7 @@ namespace Tantrix
 
             if (clickedOnTile != null)
             {
-                clickedOnTile.Draw(spriteBatch);
+                clickedOnTile.Draw(spriteBatch, false, true);
             }
 
             for (int i = 0; i < 10; i++)
