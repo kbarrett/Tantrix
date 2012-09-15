@@ -32,7 +32,7 @@ namespace Tantrix
         Board board;
 
         public static float height = 100.0f;
-        public static float width = 86.85f;
+        public static float width = 86.85f; //this might be wrong...
         public static Vector2 centre = new Vector2(height / 2, width / 2);
 
         public static int screenHeight = 700;

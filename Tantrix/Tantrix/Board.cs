@@ -21,8 +21,6 @@ namespace Tantrix
         float startOfBoard = 0;
         float oldStartOfBoard = 0;
 
-        float offsetFromTilesAbove = 0;
-
         Vector2 cameraOffset = Vector2.Zero;
 
         public Board()
@@ -39,11 +37,10 @@ namespace Tantrix
 
             foreach (Piece p in board)
             {
-                p.Draw(spriteBatch, cameraOffset + new Vector2 (0, startOfBoard - oldStartOfBoard + offsetFromTilesAbove));
+                p.Draw(spriteBatch, cameraOffset + new Vector2 (0, startOfBoard - oldStartOfBoard));
             }
 
             cameraOffset = Vector2.Zero;
-            offsetFromTilesAbove = 0;
             oldStartOfBoard = startOfBoard;
             startOfBoard = 0;
         }
@@ -104,8 +101,6 @@ namespace Tantrix
                 piece.setBelow(newBelow);
                 board.Add(newBelow);
             }
-
-            offsetFromTilesAbove += temp;
         }
 
         public void DrawAvaliableTiles(SpriteBatch spriteBatch, Tile clickedOnTile = null)

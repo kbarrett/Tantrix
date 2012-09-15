@@ -45,7 +45,7 @@ namespace Tantrix
 
         void updateRectangle()
         {
-            where = new Rectangle((int)(location.X /*- (Game1.width / 2)*/), (int)(location.Y /*- (Game1.height / 2)*/), (int)Game1.width, (int)Game1.height);
+            where = new Rectangle((int)(location.X - (Game1.height / 2)), (int)(location.Y - (Game1.height / 2)), (int)Game1.height, (int)Game1.height);
         }
 
         public Piece getAbove() { return above; }
@@ -102,6 +102,7 @@ namespace Tantrix
         {
             location = location + offSet;
             updateRectangle();
+
             if (tile != null)
             {
                 tile.Draw(spriteBatch, location);
