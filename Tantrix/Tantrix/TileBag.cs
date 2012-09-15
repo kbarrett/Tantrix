@@ -45,7 +45,7 @@ namespace Tantrix
 
         public bool placeTile(Tile tile)
         {
-            if (tile != null && !placedpieces.Contains(tile))
+            if (tile != null && !placedpieces.Contains(tile) && bag.Contains(tile))
             {
                 placedpieces.Add(tile);
                 bag.Remove(tile);

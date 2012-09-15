@@ -27,6 +27,13 @@ namespace Tantrix
         Piece rightbottom;
         Piece below;
 
+        public static Vector2 LeftTopOffSet = new Vector2(-75, -50);
+        public static Vector2 LeftBottomOffSet = new Vector2(-75, 50);
+        public static Vector2 RightTopOffSet = new Vector2(75, -50);
+        public static Vector2 RightBottomOffSet = new Vector2(75, 50);
+        public static Vector2 AboveOffSet = new Vector2(0, -100);
+        public static Vector2 BelowOffSet = new Vector2(0, 100);
+
         Piece[] adjacentPieces = new Piece[6];
 
         public Piece(Vector2 location)
@@ -49,55 +56,51 @@ namespace Tantrix
         }
 
         public Piece getAbove() { return above; }
-        public void setAbove(Piece newAbove)
-        { 
-            above = newAbove;
-            if (getLeftTop() != null && getLeftTop().getRightBottom() != this) { getLeftTop().setRightBottom(this); }
-            if (getRightTop() != null && getRightTop().getLeftBottom() != this) { getRightTop().setLeftBottom(this); }
-            if (newAbove.getAbove() != this) { newAbove.setBelow(this); }
-        }
         public Piece getLeftTop() { return lefttop; }
-        public void setLeftTop(Piece newLT)
-        {
-            lefttop = newLT;
-            if (getAbove() != null && getAbove().getBelow() != this) { getAbove().setBelow(this); }
-            if (getLeftBottom() != null && getLeftBottom().getRightTop() != this) { getLeftBottom().setRightTop(this); }
-            if (newLT.getRightBottom() != this) { newLT.setRightBottom(this); }
-        }
         public Piece getLeftBottom() { return leftbottom; }
-        public void setLeftBottom(Piece newLB)
-        {
-            leftbottom = newLB;
-            if (getLeftTop() != null && getLeftTop().getRightBottom() != this) { getLeftTop().setRightBottom(this); }
-            if (getBelow() != null && getBelow().getAbove()!=this) { getBelow().setAbove(this); }
-            if (newLB.getRightTop() != this) { newLB.setRightTop(this); }
-        }
         public Piece getRightTop() { return righttop; }
-        public void setRightTop(Piece newRT)
-        { 
-            righttop = newRT;
-            if (getAbove() != null && getAbove().getBelow()!=this) { getAbove().setBelow(this); }
-            if (getRightBottom() != null && getRightBottom().getLeftTop()!=this) { getRightBottom().setLeftTop(this); }
-            if (newRT.getLeftBottom() != this) { newRT.setLeftBottom(this); }
-        }
         public Piece getRightBottom() { return rightbottom; }
-        public void setRightBottom(Piece newRB)
-        { 
-            rightbottom = newRB;
-            if (getRightTop() != null && getRightTop().getLeftBottom() != this) { getRightTop().setLeftBottom(this); }
-            if (getBelow() != null && getBelow().getAbove() != this) { getBelow().setAbove(this); }
-            if (newRB.getLeftTop() != this) { newRB.setLeftTop(this); }
-        }
         public Piece getBelow() { return below; }
-        public void setBelow(Piece newBelow)
-        { 
-            below = newBelow;
-            if (getLeftBottom() != null && getLeftBottom().getRightTop() != this) { getLeftBottom().setRightTop(this); }
-            if (getRightBottom() != null && getRightBottom().getLeftTop() != this) { getRightBottom().setLeftTop(this); }
-            if (newBelow.getAbove() != this) { newBelow.setAbove(this); }
-        }
         public Vector2 getLocation() { return location; }
 
+
+        private void checkBelow(Board board)
+        {
+            below = board.getPieceOnScreen(location + BelowOffSet);
+        }
+        private void checkAbove(Board board)
+        {
+            above = board.getPieceOnScreen(location + AboveOffSet);
+        }
+        private void checkLeftTop(Board board)
+        {
+            lefttop = board.getPieceOnScreen(location + LeftTopOffSet);
+        }
+        private void checkLeftBottom(Board board)
+        {
+            leftbottom = board.getPieceOnScreen(location + LeftBottomOffSet);
+        }
+        private void checkRightBottom(Board board)
+        {
+            rightbottom = board.getPieceOnScreen(location + RightBottomOffSet);
+        }
+        private void checkRightTop(Board board)
+        {
+            righttop = board.getPieceOnScreen(location + RightTopOffSet);
+        }
+
+        public void CheckAdjacentPieces(Board board)
+        {
+            checkAbove(board);
+            checkLeftTop(board);
+            checkBelow(board);
+        }
+
+        public bool Collides(float x, float y)
+        {
+            return where.Contains((int) x, (int) y);
+        }
+        
         public void Draw(SpriteBatch spriteBatch, Vector2 offSet)
         {
             location = location + offSet;

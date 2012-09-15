@@ -166,11 +166,6 @@ namespace Tantrix
                 clickedOnTile.Draw(spriteBatch, false, true);
             }
 
-            for (int i = 0; i < 10; i++)
-            {
-                spriteBatch.Draw(tilebackground, new Vector2(i * 50, i * 50), null, Color.Blue, 0, Vector2.Zero, 0.05f, SpriteEffects.None, 0);
-            }
-
             spriteBatch.End();
 
             base.Draw(gameTime);
