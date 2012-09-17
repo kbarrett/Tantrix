@@ -64,7 +64,7 @@ namespace Tantrix
         {
             int temp = 0;
 
-            piece.CheckAdjacentPieces(this);
+            //piece.CheckAdjacentPieces(this);
 
             if (piece.getLeftTop() == null)
             {
@@ -137,6 +137,8 @@ namespace Tantrix
             {
                 startOfBoard = yvalue + Game1.height;
             }
+
+            spriteBatch.Draw(Game1.tilebagtexture, new Rectangle(0, 0, Game1.screenWidth, (int)startOfBoard), null, Color.Pink, 0, Vector2.Zero, SpriteEffects.None, 0.6f);
         }
 
         public Tile getTileOnScreen(float x, float y)

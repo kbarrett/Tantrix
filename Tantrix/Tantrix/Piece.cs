@@ -66,27 +66,39 @@ namespace Tantrix
 
         private void checkBelow(Board board)
         {
+            Piece temp = below;
             below = board.getPieceOnScreen(location + BelowOffSet);
+            if (temp == null && below != null) { below.CheckAdjacentPieces(board); }
         }
         private void checkAbove(Board board)
         {
+            Piece temp = above;
             above = board.getPieceOnScreen(location + AboveOffSet);
+            if (temp == null && above != null) { above.CheckAdjacentPieces(board); }
         }
         private void checkLeftTop(Board board)
         {
+            Piece temp = lefttop;
             lefttop = board.getPieceOnScreen(location + LeftTopOffSet);
+            if (temp == null && lefttop != null) { lefttop.CheckAdjacentPieces(board); }
         }
         private void checkLeftBottom(Board board)
         {
+            Piece temp = leftbottom;
             leftbottom = board.getPieceOnScreen(location + LeftBottomOffSet);
+            if (temp == null && leftbottom != null) { leftbottom.CheckAdjacentPieces(board); }
         }
         private void checkRightBottom(Board board)
         {
+            Piece temp = rightbottom;
             rightbottom = board.getPieceOnScreen(location + RightBottomOffSet);
+            if (temp == null && rightbottom != null) { rightbottom.CheckAdjacentPieces(board); }
         }
         private void checkRightTop(Board board)
         {
+            Piece temp = righttop;
             righttop = board.getPieceOnScreen(location + RightTopOffSet);
+            if (temp == null && righttop != null) { righttop.CheckAdjacentPieces(board); }
         }
 
         public void CheckAdjacentPieces(Board board)
@@ -94,6 +106,9 @@ namespace Tantrix
             checkAbove(board);
             checkLeftTop(board);
             checkBelow(board);
+            checkLeftBottom(board);
+            checkRightTop(board);
+            checkRightBottom(board);
         }
 
         public bool Collides(float x, float y)
