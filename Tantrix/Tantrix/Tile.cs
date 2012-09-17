@@ -184,5 +184,19 @@ namespace Tantrix
         {
             return colours;
         }
+
+        public void Rotate()
+        {
+            int[] tempends = (int[])ends.Clone();
+            LineType[] temptypes = (LineType[])types.Clone();
+            Color[] tempcolours = (Color[])colours.Clone();
+
+            for (int i = 1; i < 7; ++i)
+            {
+                ends[i % 6] = tempends[(i - 1) % 6];
+                colours[i % 6] = tempcolours[(i - 1) % 6];
+                types[i % 6] = temptypes[(i - 1) % 6];
+            }
+        }
     }
 }

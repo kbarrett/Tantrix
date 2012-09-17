@@ -64,6 +64,18 @@ namespace Tantrix
                 default: return null;
             }
         }
+        void setAdjacentPiece(AdjacentPiece whichPiece, Piece piece)
+        {
+            switch (whichPiece)
+            {
+                case AdjacentPiece.Above: above = piece; break;
+                case AdjacentPiece.Below: below = piece; break;
+                case AdjacentPiece.LeftTop: lefttop = piece; break;
+                case AdjacentPiece.LeftBottom: leftbottom = piece; break;
+                case AdjacentPiece.RightTop: righttop = piece; break;
+                case AdjacentPiece.RightBottom: rightbottom = piece; break;
+            }
+        }
 
         void updateRectangle()
         {

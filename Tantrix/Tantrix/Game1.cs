@@ -140,8 +140,12 @@ namespace Tantrix
                 clickedOnTile = null;
             }
 
-            previousMouse = ms;
+            if (clickedOnTile != null && /*Keyboard.GetState().IsKeyDown(Keys.Right)) //*/ms.RightButton == ButtonState.Pressed && previousMouse.RightButton == ButtonState.Released)
+            {
+                clickedOnTile.Rotate();
+            }
 
+            previousMouse = ms;
 
             // TODO: Add your update logic here
 
