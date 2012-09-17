@@ -14,6 +14,16 @@ namespace Tantrix
 {
     class Piece
     {
+        enum AdjacentPiece
+        {
+            Below,
+            RightBottom,
+            RightTop,
+            Above,
+            LeftTop,
+            LeftBottom
+        }
+
         Vector2 location;
 
         Rectangle where;
@@ -34,20 +44,25 @@ namespace Tantrix
         public static Vector2 AboveOffSet = new Vector2(0, -100);
         public static Vector2 BelowOffSet = new Vector2(0, 100);
 
-        Piece[] adjacentPieces = new Piece[6];
-
         public Piece(Vector2 location)
         {
             this.location = location;
 
-            adjacentPieces[0] = getBelow();
-            adjacentPieces[1] = getLeftTop();
-            adjacentPieces[2] = getLeftBottom();
-            adjacentPieces[3] = getAbove();
-            adjacentPieces[4] = getRightBottom();
-            adjacentPieces[5] = getRightTop();
-
             updateRectangle();
+        }
+
+        Piece adjacentPieces(AdjacentPiece piece)
+        {
+            switch (piece)
+            {
+                case AdjacentPiece.Above: return above;
+                case AdjacentPiece.Below: return below;
+                case AdjacentPiece.LeftTop: return lefttop;
+                case AdjacentPiece.LeftBottom: return leftbottom;
+                case AdjacentPiece.RightTop: return righttop;
+                case AdjacentPiece.RightBottom: return rightbottom;
+                default: return null;
+            }
         }
 
         void updateRectangle()
@@ -145,8 +160,8 @@ namespace Tantrix
                 for(int i = 0; i < 6; i++)
                 {
                     Color thisColour = colours[i];
-                    if (adjacentPieces[i] == null) { continue; }
-                    Tile otherTile = adjacentPieces[i].tile;
+                    if (adjacentPieces((AdjacentPiece)i) == null) { continue; }
+                    Tile otherTile = adjacentPieces((AdjacentPiece)i).tile;
                     if (otherTile == null) { continue; }
                     Color thatColour = otherTile.getColours()[(i+3)%6];
                     if (thisColour == null || thatColour == null) { continue; }
