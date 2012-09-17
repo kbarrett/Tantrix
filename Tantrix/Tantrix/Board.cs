@@ -21,14 +21,19 @@ namespace Tantrix
         float startOfBoard = 0;
         float oldStartOfBoard = 0;
 
+        int numberOfPlayers;
+        int currentPlayer = 0;
+
         Vector2 cameraOffset = Vector2.Zero;
 
-        public Board()
+        public Board(int numberOfPlayers)
         {
             board = new List<Piece>();
             board.Add(new Piece(new Vector2(50, 50)));
 
-            tileBag = new TileBag();
+            tileBag = new TileBag(numberOfPlayers);
+
+            this.numberOfPlayers = numberOfPlayers;
         }
 
         public void Draw(SpriteBatch spriteBatch, Tile clickedOnTile = null)
@@ -50,14 +55,21 @@ namespace Tantrix
         {
             foreach (Piece piece in board)
             {
-                if (piece.IsCompatible(tile, x, y) && tileBag.placeTile(tile))
+                if (piece.IsCompatible(tile, x, y) && tileBag.placeTile(tile, currentPlayer))
                 {
                     piece.PlaceTile(tile);
 
                     updateBoard(piece);
+
+                    swapPlayersTurn();
                     break;
                 }
             }
+        }
+
+        void swapPlayersTurn()
+        {
+            currentPlayer = (currentPlayer + 1) % numberOfPlayers;
         }
 
         void updateBoard(Piece piece)
@@ -111,7 +123,7 @@ namespace Tantrix
 
         public void DrawAvaliableTiles(SpriteBatch spriteBatch, Tile clickedOnTile = null)
         {
-            List<Tile> bag = tileBag.GetBag();
+            List<Tile> bag = tileBag.GetPlayersBag(currentPlayer);
             int yvalue = 0;
             int offset = 0;
             for (int i = 0; i<bag.Count<Tile>(); i++)
@@ -138,12 +150,34 @@ namespace Tantrix
                 startOfBoard = yvalue + Game1.height;
             }
 
-            spriteBatch.Draw(Game1.tilebagtexture, new Rectangle(0, 0, Game1.screenWidth, (int)startOfBoard), null, Color.Pink, 0, Vector2.Zero, SpriteEffects.None, 0.6f);
+            Color colour = chooseColour();
+
+            spriteBatch.Draw(Game1.tilebagtexture, 
+                            new Rectangle(0, 0, Game1.screenWidth, (int)startOfBoard), 
+                            null, 
+                            colour, 
+                            0, 
+                            Vector2.Zero, 
+                            SpriteEffects.None, 
+                            0.6f);
+        }
+
+        Color chooseColour()
+        {
+            switch (currentPlayer % 5)
+            {
+                case 0: return Color.Pink;
+                case 1: return Color.Thistle;
+                case 2: return Color.Teal;
+                case 3: return Color.Tan;
+                case 4: return Color.SandyBrown;
+                default: return Color.Transparent;
+            }
         }
 
         public Tile getTileOnScreen(float x, float y)
         {
-            foreach (Tile tile in tileBag.GetBag())
+            foreach (Tile tile in tileBag.GetPlayersBag(currentPlayer))
             {
                 if (tile.Collides(x, y))
                 {

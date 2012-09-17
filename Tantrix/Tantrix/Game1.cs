@@ -38,6 +38,8 @@ namespace Tantrix
         public static int screenHeight = 700;
         public static int screenWidth = 800;
 
+        int numberOfPlayers = 2;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -45,7 +47,7 @@ namespace Tantrix
             graphics.PreferredBackBufferHeight = screenHeight;
             graphics.PreferredBackBufferWidth = screenWidth;
 
-            board = new Board();
+            board = new Board(numberOfPlayers);
 
             IsMouseVisible = true;
 

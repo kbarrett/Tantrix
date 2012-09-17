@@ -18,7 +18,10 @@ namespace Tantrix
 
         List<Tile> placedpieces = new List<Tile>();
 
-        public TileBag()
+        List<List<Tile>> playersHands = new List<List<Tile>>();
+        int piecesInHand = 5;
+
+        public TileBag(int numberOfPlayers)
         {
             bag.Add(new Tile(new int[] { 1, Tile.NOMATCH, 3, Tile.NOMATCH, 5, Tile.NOMATCH }, new Color[] { Color.Red, Color.Blue, Color.Yellow }));
             bag.Add(new Tile(new int[] { 1, Tile.NOMATCH, 3, Tile.NOMATCH, 5, Tile.NOMATCH }, new Color[] { Color.Blue, Color.Red, Color.Yellow }));
@@ -29,13 +32,33 @@ namespace Tantrix
             bag.Add(new Tile(new int[] { 2, 3, Tile.NOMATCH, Tile.NOMATCH, 5, Tile.NOMATCH }, new Color[] { Color.Red, Color.Red, Color.Blue }));
             bag.Add(new Tile(new int[] { 2, 3, Tile.NOMATCH, Tile.NOMATCH, 5, Tile.NOMATCH }, new Color[] { Color.Red, Color.Red, Color.Blue }));
             bag.Add(new Tile(new int[] { 2, 3, Tile.NOMATCH, Tile.NOMATCH, 5, Tile.NOMATCH }, new Color[] { Color.Red, Color.Red, Color.Blue }));
+
+            for(int i = 0; i < numberOfPlayers; ++i)
+            {
+                createPlayersHand();
+            }
         }
 
-        int cur = 0;
-        public Tile getRandomTile()
+        void createPlayersHand()
         {
-            if (cur > bag.Count<Tile>()) { cur = 0; }
-            return bag.ElementAt<Tile>(cur++);
+            List<Tile> hand = new List<Tile>(piecesInHand);
+            for (int i = 0; i < piecesInHand; ++i) { hand.Add(getRandomTile()); }
+            playersHands.Add(hand);
+        }
+
+        Tile getRandomTile()
+        {
+            if (bag.Count == 0) { return null; }
+            Random random = new Random();
+            int which = random.Next(bag.Count);
+            Tile whichTile = bag.ElementAt<Tile>(which);
+            bag.Remove(whichTile);
+            return whichTile;
+        }
+
+        public List<Tile> GetPlayersBag(int player)
+        {
+            return playersHands.ElementAt<List<Tile>>(player);
         }
 
         public List<Tile> GetBag()
@@ -43,12 +66,15 @@ namespace Tantrix
             return bag;
         }
 
-        public bool placeTile(Tile tile)
+        public bool placeTile(Tile tile, int currentPlayer)
         {
-            if (tile != null && !placedpieces.Contains(tile) && bag.Contains(tile))
+            List<Tile> playerHand = playersHands.ElementAt<List<Tile>>(currentPlayer);
+            if (tile != null && !placedpieces.Contains(tile) && playerHand.Contains(tile))
             {
                 placedpieces.Add(tile);
-                bag.Remove(tile);
+                playerHand.Remove(tile);
+                Tile nextTile = getRandomTile();
+                if (nextTile != null) { playerHand.Add(nextTile); }
                 return true;
             }
             return false;
